@@ -1,0 +1,11 @@
+"AddonInfo"
+{
+    "name"         "MilTickets"
+    "version"      "1"
+    "up_date"      "3/12/2021"
+    "author_name"  "Buckell"
+    "author_email" "max@altis.gg"
+    "author_url"   "https://altis.gg/"
+    "info"         "Adds a system to MilitaryRP to control the usage of resources."
+    "override"     "0"
+}
