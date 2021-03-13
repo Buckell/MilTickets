@@ -21,6 +21,16 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 ]]--
 
+function MilTickets.GetFactionNumbers(faction)
+    local cache = MilTickets.FactionCache[faction]
+
+    if cache then
+        return cache.tickets, cache.command_points
+    else
+        return nil
+    end
+end
+
 MilTickets.FactionCache = {}
 
 for faction,_ in MilTickets.Factions do
