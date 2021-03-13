@@ -25,7 +25,7 @@ MilTickets.Commands = {}
 
 function MilTickets.AddCommand(identifier, admin_only, func)
     MilTickets[identifier] = {
-        admin_only,
+        admin_only = admin_only,
         call = func
     }
 end
