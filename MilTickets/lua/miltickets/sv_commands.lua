@@ -54,6 +54,29 @@ hook.Add("PlayerSay", "MilTickets.CommandDispatch", function (ply, text, team)
     end
 end)
 
+MilTickets.AddCommand("tickets", false, function (ply, args)
+    if #args > 0 then
+        local faction = args[1]
+        local table = MilTickets.Factions[faction]
+
+        if table then
+            local tickets, command_points = MilTickets.GetFactionNumbers(faction)
+            ply:ChatPrint(table.name .. ": " .. tickets .. " (Tickets), " .. command_points .. " (Command Points)")
+        else
+            ply:ChatPrint("The specified faction \"" .. faction .. "\" does not exist. Use /factionlist for a list of factions.")
+        end
+    else
+        local faction = MilTickets.GetPlayerFaction(ply)
+
+        if faction then
+            local tickets, command_points = MilTickets.GetFactionNumbers(faction)
+            ply:ChatPrint(MilTickets.Factions[faction].name .. ": " .. tickets .. " (Tickets), " .. command_points .. " (Command Points)")
+        else
+            ply:ChatPrint("You do not belong to a faction. Use /tickets <faction> to get a certain faction's tickets and command points.")
+        end
+    end
+end)
+
 MilTickets.AddCommand("force_reset_factions", true, function (ply, args)
     MilTickets.ResetFactions()
 end)

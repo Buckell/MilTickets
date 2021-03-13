@@ -64,6 +64,16 @@ function MilTickets.ResetFactions()
     net.Broadcast()
 end
 
+function MilTickets.GetFactionNumbers(faction)
+    local cache = MilTickets.FactionCache[faction]
+
+    if cache then
+        return cache.tickets, cache.command_points
+    else
+        return nil
+    end
+end
+
 util.AddNetworkString("MilTickets.FactionsReset")
 util.AddNetworkString("MilTickets.UpdateCache")
 
