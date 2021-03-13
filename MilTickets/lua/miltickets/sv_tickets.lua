@@ -86,6 +86,26 @@ function MilTickets.SetFactionCommandPoints(faction, amount)
     MilTickets.BroadcastCache()
 end
 
+function MilTickets.AddFactionTickets(faction, amount)
+    local tickets = MilTickets.GetFactionNumbers(faction)
+    MilTickets.SetFactionTickets(faction, tickets + amount)
+end
+
+function MilTickets.DeductFactionTickets(faction, amount)
+    local tickets = MilTickets.GetFactionNumbers(faction)
+    MilTickets.SetFactionTickets(faction, tickets - amount)
+end
+
+function MilTickets.AddFactionCommandPoints(faction, amount)
+    local _, command_points = MilTickets.GetFactionNumbers(faction)
+    MilTickets.SetFactionCommandPoints(faction, command_points + amount)
+end
+
+function MilTickets.DeductFactionCommandPoints(faction, amount)
+    local _, command_points = MilTickets.GetFactionNumbers(faction)
+    MilTickets.SetFactionCommandPoints(faction, command_points - amount)
+end
+
 util.AddNetworkString("MilTickets.FactionsReset")
 util.AddNetworkString("MilTickets.UpdateCache")
 
