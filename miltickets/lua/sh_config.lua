@@ -32,7 +32,7 @@ MilTickets.Factions = {
 
 -- Starting values for tickets and command points.
 MilTickets.DefaultValues = {
-    command_points = 100
+    command_points = 100,
     tickets = 150
 }
 
