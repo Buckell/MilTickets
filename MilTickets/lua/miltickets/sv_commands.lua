@@ -77,6 +77,12 @@ MilTickets.AddCommand("tickets", false, function (ply, args)
     end
 end)
 
+MilTickets.AddCommand("factionlist", false, function (ply, args)
+    for k,v in pairs(MilTickets.Factions) do
+        ply:ChatPrint("[" .. k .. "] " .. v)
+    end
+end)
+
 MilTickets.AddCommand("force_reset_factions", true, function (ply, args)
     MilTickets.ResetFactions()
 end)
