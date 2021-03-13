@@ -21,12 +21,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 ]]--
 
+MilTickets.FactionCache = {}
+
 function MilTickets.PopulateCache()
     MilTickets.FactionCache = {}
 
-    local query = sql.Query("SELECT * FROM MilTickets_Factions")
-
-    for _,row in query do
+    local query = sql.Query("SELECT * FROM MilTickets_Factions") or {}
+    
+    for _,row in pairs(query) do
         MilTickets.FactionCache[row["Faction"]] = {
             tickets = row["Tickets"],
             command_points = row["CommandPoints"]
@@ -35,7 +37,7 @@ function MilTickets.PopulateCache()
 end
 
 function MilTickets.GetAutoResetStartTime()
-    return sql.QueryValue("SELECT * FROM MilTickets_Timing")
+    return tonumber(sql.QueryValue("SELECT * FROM MilTickets_Timing"))
 end
 
 function MilTickets.BroadcastCache()
@@ -119,7 +121,7 @@ if not sql.TableExists("MilTickets_Factions") then
     sql.Query("CREATE TABLE MilTickets_Factions (Faction TINYTEXT, Tickets BIGINT, CommandPoints BIGINT)")
 
     for faction,_ in pairs(MilTickets.Factions) do
-        sql.Query("INSERT INTO MilTickets_Factions VALUES ('" .. SQLStr(faction) .. "', " .. (MilTickets.DefaultValues.tickets or 100) .. ", " .. (MilTickets.DefaultValues.command_points or 100) .. ")")
+        sql.Query("INSERT INTO MilTickets_Factions VALUES ('" .. faction .. "', " .. (MilTickets.DefaultValues.tickets or 100) .. ", " .. (MilTickets.DefaultValues.command_points or 100) .. ")")
     end
 
     sql.Commit()
@@ -131,7 +133,7 @@ if MilTickets.AutoResetDays then
     local cached_start_time = MilTickets.GetAutoResetStartTime()
     local delay_seconds = MilTickets.AutoResetDays * 86400
 
-    timer.Create("MilTickets.AutoReset", 10, function ()
+    timer.Create("MilTickets.AutoReset", 10, 0, function ()
         if os.time() - delay_seconds >= cached_start_time then
             MilTickets.ResetFactions()
         end

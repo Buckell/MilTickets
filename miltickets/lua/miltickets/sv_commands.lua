@@ -32,14 +32,14 @@ end
 
 function MilTickets.DispatchCommand(identifier, ply, ...)
     local command = MilTickets[identifier]
-
+    
     if command then
         if command.admin_only and not MilTickets.IsPlayerAdmin(ply) then
             ply:ChatPrint("This command is restricted to administrators only.")
             return
         end
 
-        command.call(ply, arg or {})
+        command.call(ply, {...} or {})
 
         return true
     else
@@ -51,7 +51,7 @@ hook.Add("PlayerSay", "MilTickets.CommandDispatch", function (ply, text, team)
     if string.StartWith(text, "/") then
         local line = string.sub(text, 2)
 
-        local args = string.Split(line, " ")
+        local args = string.Split(line, " ")            
         local identifier = table.remove(args, 1)
         
         if MilTickets.DispatchCommand(identifier, ply, unpack(args)) then
@@ -85,7 +85,7 @@ end)
 
 MilTickets.AddCommand("factionlist", false, function (ply, args)
     for k,v in pairs(MilTickets.Factions) do
-        ply:ChatPrint("[" .. k .. "] " .. v)
+        ply:ChatPrint("[" .. k .. "] " .. v.name)
     end
 end)
 
@@ -96,8 +96,8 @@ end)
 
 MilTickets.AddCommand("set_tickets", true, function (ply, args)
     local faction = args[1]
-    local amount = args[2]
-
+    local amount = tonumber(args[2])
+        
     if MilTickets.Factions[faction] and isnumber(amount) then
         MilTickets.SetFactionTickets(faction, amount)
         ply:ChatPrint("Set the " .. faction .. " faction's tickets to " .. amount .. ".")
@@ -108,7 +108,7 @@ end)
 
 MilTickets.AddCommand("add_tickets", true, function (ply, args)
     local faction = args[1]
-    local amount = args[2]
+    local amount = tonumber(args[2])
 
     if MilTickets.Factions[faction] and isnumber(amount) then
         MilTickets.AddFactionTickets(faction, amount)
@@ -120,7 +120,7 @@ end)
 
 MilTickets.AddCommand("deduct_tickets", true, function (ply, args)
     local faction = args[1]
-    local amount = args[2]
+    local amount = tonumber(args[2])
 
     if MilTickets.Factions[faction] and isnumber(amount) then
         MilTickets.DeductFactionTickets(faction, amount)
@@ -132,7 +132,7 @@ end)
 
 MilTickets.AddCommand("set_command_points", true, function (ply, args)
     local faction = args[1]
-    local amount = args[2]
+    local amount = tonumber(args[2])
 
     if MilTickets.Factions[faction] and isnumber(amount) then
         MilTickets.SetFactionCommandPoints(faction, amount)
@@ -144,7 +144,7 @@ end)
 
 MilTickets.AddCommand("add_command_points", true, function (ply, args)
     local faction = args[1]
-    local amount = args[2]
+    local amount = tonumber(args[2])
 
     if MilTickets.Factions[faction] and isnumber(amount) then
         MilTickets.AddFactionCommandPoints(faction, amount)
@@ -156,7 +156,7 @@ end)
 
 MilTickets.AddCommand("deduct_command_points", true, function (ply, args)
     local faction = args[1]
-    local amount = args[2]
+    local amount = tonumber(args[2])
 
     if MilTickets.Factions[faction] and isnumber(amount) then
         MilTickets.DeductFactionCommandPoints(faction, amount)
