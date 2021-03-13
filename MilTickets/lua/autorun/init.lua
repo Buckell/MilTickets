@@ -28,4 +28,4 @@ include("sh_config.lua")
 
 AddCSLuaFile("miltickets/cl_tickets.lua")
 include("miltickets/sv_tickets.lua")
-
+include("miltickets/sv_commands.lua")
