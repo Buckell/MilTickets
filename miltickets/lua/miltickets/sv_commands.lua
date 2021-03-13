@@ -39,7 +39,7 @@ function MilTickets.DispatchCommand(identifier, ply, ...)
             return
         end
 
-        command.call(ply, unpack(arg))
+        command.call(ply, arg)
 
         return true
     else
