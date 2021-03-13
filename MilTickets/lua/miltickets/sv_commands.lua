@@ -40,6 +40,10 @@ function MilTickets.DispatchCommand(identifier, ply, ...)
         end
 
         command.call(ply, unpack(arg))
+
+        return true
+    else
+        return false
     end
 end
 
@@ -50,7 +54,9 @@ hook.Add("PlayerSay", "MilTickets.CommandDispatch", function (ply, text, team)
         local args = string.Split(line, " ")
         local identifier = table.remove(args, 1)
         
-        MilTickets.DispatchCommand(identifier, ply, unpack(args))
+        if MilTickets.DispatchCommand(identifier, ply, unpack(args)) then
+            return ""
+        end
     end
 end)
 
@@ -85,4 +91,77 @@ end)
 
 MilTickets.AddCommand("force_reset_factions", true, function (ply, args)
     MilTickets.ResetFactions()
+    ply:ChatPrint("Factions have been reset.")
+end)
+
+MilTickets.AddCommand("set_tickets", true, function (ply, args)
+    local faction = args[1]
+    local amount = args[2]
+
+    if MilTickets.Factions[faction] and isnumber(amount) then
+        MilTickets.SetFactionTickets(faction, amount)
+        ply:ChatPrint("Set the " .. faction .. " faction's tickets to " .. amount .. ".")
+    else
+        ply:ChatPrint("The specified faction \"" .. faction .. "\" does not exist or an invalid amount was specified. Use /factionlist for a list of factions.")
+    end
+end)
+
+MilTickets.AddCommand("add_tickets", true, function (ply, args)
+    local faction = args[1]
+    local amount = args[2]
+
+    if MilTickets.Factions[faction] and isnumber(amount) then
+        MilTickets.AddFactionTickets(faction, amount)
+        ply:ChatPrint("Added " .. amount .. " tickets to " .. faction .. " faction.")
+    else
+        ply:ChatPrint("The specified faction \"" .. faction .. "\" does not exist or an invalid amount was specified. Use /factionlist for a list of factions.")
+    end
+end)
+
+MilTickets.AddCommand("deduct_tickets", true, function (ply, args)
+    local faction = args[1]
+    local amount = args[2]
+
+    if MilTickets.Factions[faction] and isnumber(amount) then
+        MilTickets.DeductFactionTickets(faction, amount)
+        ply:ChatPrint("Deducted " .. amount .. " tickets from " .. faction .. " faction.")
+    else
+        ply:ChatPrint("The specified faction \"" .. faction .. "\" does not exist or an invalid amount was specified. Use /factionlist for a list of factions.")
+    end
+end)
+
+MilTickets.AddCommand("set_command_points", true, function (ply, args)
+    local faction = args[1]
+    local amount = args[2]
+
+    if MilTickets.Factions[faction] and isnumber(amount) then
+        MilTickets.SetFactionCommandPoints(faction, amount)
+        ply:ChatPrint("Set the " .. faction .. " faction's command points to " .. amount .. ".")
+    else
+        ply:ChatPrint("The specified faction \"" .. faction .. "\" does not exist or an invalid amount was specified. Use /factionlist for a list of factions.")
+    end
+end)
+
+MilTickets.AddCommand("add_command_points", true, function (ply, args)
+    local faction = args[1]
+    local amount = args[2]
+
+    if MilTickets.Factions[faction] and isnumber(amount) then
+        MilTickets.AddFactionCommandPoints(faction, amount)
+        ply:ChatPrint("Added " .. amount .. " command points to " .. faction .. " faction.")
+    else
+        ply:ChatPrint("The specified faction \"" .. faction .. "\" does not exist or an invalid amount was specified. Use /factionlist for a list of factions.")
+    end
+end)
+
+MilTickets.AddCommand("deduct_command_points", true, function (ply, args)
+    local faction = args[1]
+    local amount = args[2]
+
+    if MilTickets.Factions[faction] and isnumber(amount) then
+        MilTickets.DeductFactionCommandPoints(faction, amount)
+        ply:ChatPrint("Deducted " .. amount .. " command points from " .. faction .. " faction.")
+    else
+        ply:ChatPrint("The specified faction \"" .. faction .. "\" does not exist or an invalid amount was specified. Use /factionlist for a list of factions.")
+    end
 end)
