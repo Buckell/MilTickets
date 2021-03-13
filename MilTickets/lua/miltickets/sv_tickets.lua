@@ -80,6 +80,12 @@ function MilTickets.SetFactionTickets(faction, amount)
     MilTickets.BroadcastCache()
 end
 
+function MilTickets.SetFactionCommandPoints(faction, amount)
+    sql.Query("UPDATE MilTickets_Factions SET CommandPoints=" .. amount .. " WHERE faction='" .. faction .. "'")
+    MilTickets.FactionCache[faction].command_points = amount
+    MilTickets.BroadcastCache()
+end
+
 util.AddNetworkString("MilTickets.FactionsReset")
 util.AddNetworkString("MilTickets.UpdateCache")
 
