@@ -74,6 +74,12 @@ function MilTickets.GetFactionNumbers(faction)
     end
 end
 
+function MilTickets.SetFactionTickets(faction, amount)
+    sql.Query("UPDATE MilTickets_Factions SET Tickets=" .. amount .. " WHERE faction='" .. faction .. "'")
+    MilTickets.FactionCache[faction].tickets = amount
+    MilTickets.BroadcastCache()
+end
+
 util.AddNetworkString("MilTickets.FactionsReset")
 util.AddNetworkString("MilTickets.UpdateCache")
 
