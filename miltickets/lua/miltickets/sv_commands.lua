@@ -36,7 +36,7 @@ function MilTickets.DispatchCommand(identifier, ply, ...)
     if command then
         if command.admin_only and not MilTickets.IsPlayerAdmin(ply) then
             ply:ChatPrint("This command is restricted to administrators only.")
-            return
+            return true
         end
 
         command.call(ply, {...} or {})
